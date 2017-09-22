@@ -11,3 +11,21 @@ This file contains a list of findings and notes from my walkthrough of the iOS P
 - Chapter 2 of the book covers the basics of Objective-C, so we'll skip that one 🤠
 - Chapter 3 is memory management and ARC (ref count), this is covered in the book for Objective-C and therefor skipped by me. However memory and references are covered in the other book about Swift.
 
+## Chapter 4: Delegation and core location
+- Adding frameworks is done in Project settings -> Build Phases -> Link binary with libraries -> + (to add a reference, in this case to CoreLocation).
+- In the book they describe a solution to override the init to set some elements
+```swift
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+	{
+		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil);
+	}
+```
+This however yields an error stating that an additional override is required.
+```swift	
+	required init?(coder aDecoder: NSCoder!)
+	{
+		super.init(coder: aDecoder)
+	}
+```
+After implementing the other init function, compile succeeds (https://stackoverflow.com/questions/25267907/initwithnibname-does-not-implement-superclass-swift)
+- To log debug messages you can also use NSLog() instead of print()
