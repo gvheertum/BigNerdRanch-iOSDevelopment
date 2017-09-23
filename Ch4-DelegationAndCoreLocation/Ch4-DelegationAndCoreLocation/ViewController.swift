@@ -8,29 +8,38 @@
 
 import UIKit
 import CoreLocation
-//Hmmmm, this thing refuses to work correctly in the simulator and will either crash or not response to changes in the delegate.
-//Well, whatever, we know the idea behind the delegates and stuff.
+import MapKit
 
-class ViewController: UIViewController
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate
 {
 
 	var locationManager : CLLocationManager?;
-	var locationManagerDelegate : CLLocationManagerDelegateResponder?;
+	
+	@IBOutlet var mapView : MKMapView?;
+	@IBOutlet var activityIndicator : UIActivityIndicatorView?;
+	@IBOutlet var locationTextField : UITextField?;
+	
 	required init?(coder aDecoder: NSCoder)
 	{
 		super.init(coder: aDecoder);
 		locationManager = CLLocationManager();
 		locationManager?.desiredAccuracy = kCLLocationAccuracyBest;
-		NSLog("Service enabled: \(CLLocationManager.locationServicesEnabled())");
-		locationManagerDelegate = CLLocationManagerDelegateResponder();
-		locationManager?.delegate = self.locationManagerDelegate;
+		locationManager?.requestWhenInUseAuthorization();
+		print("Location service enabled: \(CLLocationManager.locationServicesEnabled())");
 		locationManager?.startUpdatingLocation();
+		locationManager?.startMonitoringSignificantLocationChanges();
+		locationManager?.delegate = self;
+		
 	}
 	
 	override func viewDidLoad()
 	{
-		super.viewDidLoad()
+		super.viewDidLoad();
+		
 		// Do any additional setup after loading the view, typically from a nib.
+		mapView?.showsUserLocation = true;
+		mapView?.delegate = self;
+	
 	}
 
 	override func didReceiveMemoryWarning()
@@ -38,22 +47,30 @@ class ViewController: UIViewController
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-}
-
-class CLLocationManagerDelegateResponder : NSObject, CLLocationManagerDelegate
-{
-	/*func locationManager(_ manager : CLLocationManager, didUpdateTo: CLLocation, from: CLLocation)
-	{
-		NSLog("Moved from \(from) to \(didUpdateTo)");
-	}*/
+	
 	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
 	{
-		NSLog("Updated locations");
+		print("Updated locations");
+		for location in locations
+		{
+			print("Location: \(location)");
+		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
 	{
-		NSLog("Could not process location: \(error)");
+		print("Could not process location: \(error)");
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit)
+	{
+		print("Visiting!");
+	}
+	
+	func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation)
+	{
+		print("Mapview did update: \(userLocation)");
 	}
 }
+
