@@ -27,5 +27,6 @@ This however yields an error stating that an additional override is required.
 		super.init(coder: aDecoder)
 	}
 ```
-After implementing the other init function, compile succeeds (https://stackoverflow.com/questions/25267907/initwithnibname-does-not-implement-superclass-swift)
+After implementing the other init function, compile succeeds(https://stackoverflow.com/questions/25267907/initwithnibname-does-not-implement-superclass-swift)
+- However the inint with the nibNameOrNil does not seem to be called when running the application. Some poking around showed that the init?(:NSCoder) is called, so we put the code there for now.
 - To log debug messages you can also use NSLog() instead of print()
