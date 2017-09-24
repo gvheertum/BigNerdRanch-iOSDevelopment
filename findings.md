@@ -33,3 +33,14 @@ After implementing the other init function, compile succeeds(https://stackoverfl
 - You can use the circle with the arrow in the right menu (where the properties are) on the scene to see all outlets.
 - Properties in the book (for example on the MKMapView) use an explicit set (e.g. setShowsUserLocation(true)), where Swift used them as "real" properties (showsUserLocation = true);
 - Working with locations has changed quite a bit since the book was released. You now need to request permission on your location manager instance ```locationManager.requestWhenInUseAuthorization();```. This seems to allow the app to use location wherever (so not only on the location manager, but also on map views). When requesting authorization, iOS will require you te set a info.plist value indicating WHY you want access by adding a key ```NSLocationAlwaysUsageDescription``` with the description (will be translated to the privacy key "Privacy - Location When In Use Usage Description" XCode). This text will be shown to the user. The debugger will warn you if the key is missing in the debug messages and will NOT grant GPS access nor will it show the request to the user.
+- A lot of helper functions are globally scoped like: ```MKCoordinateRegionMakeWithDistance()``` and ```CLLocationCoordinate2DMake``` which are available in the MapKit framework. I would have expected these to be statics in the classes, but they are put in the namespace.
+- Some UI elements do not support delegates, but work with targets and actions (I need to further investigate that)
+- You can always use the IBActions to link action elements to backend functions
+- In the example I found that the delegate for the TextField needs to be set in the viewdidload and not in the init. Assigning it in the init fails to yield the correct result (textbox stays active and the return event is not triggered). Don't know why...
+
+### Regarding controls and elements
+- Textfield: If you want to catch the event of the user pressing done/return on the keyboard in a text field you can use the UITextFieldDelegate.
+
+
+### TODO
+- Investigate the working of targets (like the UISegmentedControl uses)

@@ -33,6 +33,18 @@
                                 <rect key="frame" x="169" y="85" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zI0-U8-v0X">
+                                <rect key="frame" x="16" y="628" width="343" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Street"/>
+                                    <segment title="Sat"/>
+                                    <segment title="Uhm"/>
+                                </segments>
+                                <connections>
+                                    <action selector="elementChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="a7U-JN-eDH"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -41,6 +53,7 @@
                         <outlet property="activityIndicator" destination="Rj5-KC-f9h" id="Rks-uZ-fZ6"/>
                         <outlet property="locationTextField" destination="wbJ-19-naG" id="1BB-ah-fMA"/>
                         <outlet property="mapView" destination="JQl-WD-zpv" id="Di9-TG-lVo"/>
+                        <outlet property="typeSeg" destination="zI0-U8-v0X" id="Bn8-Lc-qCy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
