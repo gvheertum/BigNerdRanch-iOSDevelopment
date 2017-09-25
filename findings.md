@@ -11,7 +11,7 @@ This file contains a list of findings and notes from my walkthrough of the iOS P
 - Chapter 2 of the book covers the basics of Objective-C, so we'll skip that one 🤠
 - Chapter 3 is memory management and ARC (ref count), this is covered in the book for Objective-C and therefor skipped by me. However memory and references are covered in the other book about Swift.
 
-## Chapter 4: Delegation and core location
+## Chapter 4: Delegation and core location & Chapter 5: MapView
 - Adding frameworks is done in Project settings -> Build Phases -> Link binary with libraries -> + (to add a reference, in this case to CoreLocation).
 - In the book they describe a solution to override the init to set some elements
 ```swift
@@ -37,6 +37,25 @@ After implementing the other init function, compile succeeds(https://stackoverfl
 - Some UI elements do not support delegates, but work with targets and actions (I need to further investigate that)
 - You can always use the IBActions to link action elements to backend functions
 - In the example I found that the delegate for the TextField needs to be set in the viewdidload and not in the init. Assigning it in the init fails to yield the correct result (textbox stays active and the return event is not triggered). Don't know why...
+
+## Chapter 6: Subclassing view and scrollview
+- Empty application template is no longer available in XCode 9, to make an empty project make a default project and follow these steps: https://github.com/simonyang81/Knowledge/wiki/How-to-create-an-empty-application-with-Xcode-6,-7-&-8
+- CGRectMake is not available in Swift, replaced with: ```CGRect(x: 160, y: 240, width: 100, height: 150);```
+- You have to create the window with it's bounds. In the old examples these are already created in the generated code, but in newer versions they are not. So make sure to create self.window in the appdelegate, otherwise it's nil and calls like window?.addSubview() will not be executed due to the window being nil.
+```swift
+	//Setup the window
+	self.window = UIWindow(frame: UIScreen.main.bounds);
+	self.window?.rootViewController = ViewController();
+
+	//Setup the view
+	let frame = CGRect(x: 25, y: 25, width: 100, height: 150);
+	let hv = HypnoView(frame: frame);
+	hv.backgroundColor = UIColor.red;
+	window?.addSubview(hv);
+		
+	//Focus the window
+	window?.makeKeyAndVisible();
+```
 
 ### Regarding controls and elements
 - Textfield: If you want to catch the event of the user pressing done/return on the keyboard in a text field you can use the UITextFieldDelegate.
