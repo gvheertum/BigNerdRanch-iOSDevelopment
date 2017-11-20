@@ -11,6 +11,10 @@ This file contains a list of findings and notes from my walkthrough of the iOS P
 - Chapter 2 of the book covers the basics of Objective-C, so we'll skip that one 🤠
 - Chapter 3 is memory management and ARC (ref count), this is covered in the book for Objective-C and therefor skipped by me. However memory and references are covered in the other book about Swift.
 
+## Objective-C -> Swift
+Notes regarding reading Obective-C code and transforming/interpreting it to Swift.
+- Properties in Objective-C often (for example on the MKMapView) use an explicit set/get (e.g. setShowsUserLocation(true)), where Swift exposes them as "real" properties (showsUserLocation = true);
+
 ## Chapter 4: Delegation and core location & Chapter 5: MapView
 - Adding frameworks is done in Project settings -> Build Phases -> Link binary with libraries -> + (to add a reference, in this case to CoreLocation).
 - In the book they describe a solution to override the init to set some elements
@@ -31,7 +35,6 @@ After implementing the other init function, compile succeeds(https://stackoverfl
 - However the inint with the nibNameOrNil does not seem to be called when running the application. Some poking around showed that the init?(:NSCoder) is called, so we put the code there for now.
 - To log debug messages you can also use NSLog() instead of print()
 - You can use the circle with the arrow in the right menu (where the properties are) on the scene to see all outlets.
-- Properties in the book (for example on the MKMapView) use an explicit set (e.g. setShowsUserLocation(true)), where Swift used them as "real" properties (showsUserLocation = true);
 - Working with locations has changed quite a bit since the book was released. You now need to request permission on your location manager instance ```locationManager.requestWhenInUseAuthorization();```. This seems to allow the app to use location wherever (so not only on the location manager, but also on map views). When requesting authorization, iOS will require you te set a info.plist value indicating WHY you want access by adding a key ```NSLocationAlwaysUsageDescription``` with the description (will be translated to the privacy key "Privacy - Location When In Use Usage Description" XCode). This text will be shown to the user. The debugger will warn you if the key is missing in the debug messages and will NOT grant GPS access nor will it show the request to the user.
 - A lot of helper functions are globally scoped like: ```MKCoordinateRegionMakeWithDistance()``` and ```CLLocationCoordinate2DMake``` which are available in the MapKit framework. I would have expected these to be statics in the classes, but they are put in the namespace.
 - Some UI elements do not support delegates, but work with targets and actions (I need to further investigate that)
